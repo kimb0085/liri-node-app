@@ -9,8 +9,13 @@ exports.twitter = {
 
 
 
-exports.spotify = {
-	id: '36cb93f6e33f45c086cde22fa0547f62',
-	secret: 'b269db9ab6874248b8f25ba7f4d19067',
-};
+// exports.spotify = {
+// 	id: '36cb93f6e33f45c086cde22fa0547f62',
+// 	secret: 'b269db9ab6874248b8f25ba7f4d19067',
+// };
 
+
+exports.spotify = {
+	id: 'process.env.SPOTIFY_ID',
+	secret: 'process.env.SPOTIFY_SECRET',
+};

@@ -7,20 +7,22 @@
 
 //Use dotenv to overwrite the twitter and spotify keys in keys.js 
 	//*this did not work, so I added the keys to key.js and added keys.js to my gitignore file
-// require("dotenv").config(process.env);
+require("dotenv").config(process.env);
 
 
 //create global variables (especially for interacting with node modules)
-var keys = require('./keys.js');
 
 var Twitter = require('twitter');
-var Spotify = require('spotify');
+var Spotify = require('node-spotify-api');
+var keys = require('./keys.js');
 var request = require('request');
 var fs = require('fs');
 
 var arg = process.argv;
 var choice = arg[2];
 
+//connect with spotify via keys.js file
+var spotify = new Spotify(keys.spotify);
 
 //capture the tweets I've tweeted
 var showTweets = function() {
@@ -46,13 +48,12 @@ var artistName = function(artist) {
 
 //get musical from spotify
 var showSong = function(songName) {
-	//connect with spotify via keys.js file
-	var spotify =  new Spotify(keys.spotify);
-	
+	console.log("got inside showSong");
+		
 	//if no song is requested, return The Sign by Ace of Base
 	if (songName === undefined) {
 		songName = 'The Sign Ace of Base';
-	}
+	};
 
 	//search spotify for songs
 	spotify.search({ type: 'track', query: songName}, function(err, data) {
@@ -61,15 +62,15 @@ var showSong = function(songName) {
 	        return;
 	    } 
 
-	var songs = data.tracks.items;
-	
-	for (var x = 0; x < songs.length; x++) {
-		console.log(x);
-		console.log('artist(s): ' + songs[x].artist.map(artistName));
-		console.log('song name: ' + songs[x].name);
-		console.log('song preview ' + songs[x].preview_url);
-		console.log('album ' + songs[x].album.name);
-		console.log('..........................................');
+		var songs = data.tracks.items;
+		
+		for (var x = 0; x < songs.length; x++) {
+			console.log(x);
+			console.log('artist(s): ' + songs[x].artist.map(artistName));
+			console.log('song name: ' + songs[x].name);
+			console.log('song preview ' + songs[x].preview_url);
+			console.log('album ' + songs[x].album.name);
+			console.log('..........................................');
 		}
 	});
 }
